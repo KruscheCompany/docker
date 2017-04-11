@@ -12,3 +12,7 @@ RUN echo "deb http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main" | te
     echo debconf shared/accepted-oracle-license-v1-1 select true | debconf-set-selections  && \
     echo debconf shared/accepted-oracle-license-v1-1 seen true | debconf-set-selections  && \
     apt-get install -y --force-yes oracle-java8-installer oracle-java8-set-default ansible xserver-xephyr xvfb sudo postgresql
+
+RUN groupadd wheel \
+    && useradd -G wheel -u 996 jenkins \
+    && echo "%wheel  ALL=(ALL)       NOPASSWD: ALL" >> /etc/sudoers
