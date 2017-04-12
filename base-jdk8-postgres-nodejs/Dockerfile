@@ -14,6 +14,6 @@ RUN echo "deb http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main" | te
     apt-get install -y --force-yes oracle-java8-installer oracle-java8-set-default ansible xserver-xephyr xvfb sudo postgresql
 
 RUN groupadd wheel \
-    && useradd -G wheel -u 996 jenkins \
+    && useradd -G wheel -u 996 jenkins -d /home/jenkins \
     && echo "%wheel  ALL=(ALL)       NOPASSWD: ALL" >> /etc/sudoers \
     && chmod 777 -R /home/jenkins
