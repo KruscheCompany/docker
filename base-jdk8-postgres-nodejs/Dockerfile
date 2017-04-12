@@ -15,4 +15,5 @@ RUN echo "deb http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main" | te
 
 RUN groupadd wheel \
     && useradd -G wheel -u 996 jenkins \
-    && echo "%wheel  ALL=(ALL)       NOPASSWD: ALL" >> /etc/sudoers
+    && echo "%wheel  ALL=(ALL)       NOPASSWD: ALL" >> /etc/sudoers \
+    && chmod 777 -R /home/jenkins
