@@ -5,7 +5,7 @@ ENV JAVA_HOME "/usr/lib/jvm/java-8-oracle"
 
 
 RUN apt-get update \
-    && apt-get install -y python-software-properties  software-properties-common wget sudo nano libgtk2.0-0 libnss3-dev libxi6 libgconf-2-4 unzip\
+    && apt-get install -y python-software-properties software-properties-common wget sudo nano libgtk2.0-0 libnss3 libnss3-dev libxi6 libgconf-2-4 unzip curl\
     && add-apt-repository ppa:webupd8team/java \
     && apt-get update \
     && echo debconf shared/accepted-oracle-license-v1-1 select true | debconf-set-selections \
@@ -30,6 +30,15 @@ RUN wget -N http://chromedriver.storage.googleapis.com/2.29/chromedriver_linux64
     && sudo mv -f chromedriver /usr/local/share/chromedriver \
     && sudo ln -s /usr/local/share/chromedriver /usr/local/bin/chromedriver \
     && sudo ln -s /usr/local/share/chromedriver /usr/bin/chromedriver
+
+RUN echo "deb http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee -a /etc/apt/sources.list \
+    && wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add - \
+    && sudo apt-get update \
+    && apt-get install -y libxpm4 libxrender1 \
+    && apt-get install -y google-chrome-stable \
+    && apt-get install -y gtk2-engines-pixbuf \
+    && apt-get install -y xfonts-cyrillic xfonts-100dpi xfonts-75dpi xfonts-base xfonts-scalable \
+    && apt-get install -y imagemagick x11-apps
 
 ENV PG_MAJOR 9.4
 ENV PG_VERSION 9.4.11-1.pgdg80+1
