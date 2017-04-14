@@ -3,7 +3,6 @@ FROM ubuntu:14.04
 ENV DEBIAN_FRONTEND noninteractive
 ENV JAVA_HOME "/usr/lib/jvm/java-8-oracle"
 
-
 RUN apt-get update \
     && apt-get install -y python-software-properties software-properties-common wget sudo nano libgtk2.0-0 libnss3 libnss3-dev libxi6 libgconf-2-4 unzip curl\
     && add-apt-repository ppa:webupd8team/java \
@@ -23,13 +22,6 @@ RUN  apt-get install -y oracle-java8-installer oracle-java8-set-default xserver-
 
 RUN curl -sL https://deb.nodesource.com/setup_0.12 | sudo bash - \
     && apt-get update && apt-get install -y nodejs
-
-RUN wget -N http://chromedriver.storage.googleapis.com/2.29/chromedriver_linux64.zip \
-    && unzip chromedriver_linux64.zip \
-    && chmod +x chromedriver \
-    && sudo mv -f chromedriver /usr/local/share/chromedriver \
-    && sudo ln -s /usr/local/share/chromedriver /usr/local/bin/chromedriver \
-    && sudo ln -s /usr/local/share/chromedriver /usr/bin/chromedriver
 
 RUN echo "deb http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee -a /etc/apt/sources.list \
     && wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add - \
