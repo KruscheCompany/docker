@@ -19,7 +19,7 @@ RUN add-apt-repository "deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg
     && wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add - \
     && apt-get update
 
-RUN  apt-get install -y oracle-java8-installer oracle-java8-set-default xserver-xephyr xvfb  postgresql-9.4
+RUN  apt-get install -y oracle-java8-installer oracle-java8-set-default xserver-xephyr xvfb  postgresql-common postgresql-9.4 postgresql-contrib-9.4
 
 RUN groupadd wheel \
     && mkdir /home/jenkins \
