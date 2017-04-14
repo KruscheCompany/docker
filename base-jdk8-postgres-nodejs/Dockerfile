@@ -5,7 +5,7 @@ ENV JAVA_HOME "/usr/lib/jvm/java-8-oracle"
 
 
 RUN apt-get update \
-    && apt-get install -y python-software-properties  software-properties-common wget sudo nano\
+    && apt-get install -y python-software-properties  software-properties-common wget sudo nano libgtk2.0-0 libnss3-dev libxi6 libgconf-2-4 unzip\
     && add-apt-repository ppa:webupd8team/java \
     && apt-get update \
     && echo debconf shared/accepted-oracle-license-v1-1 select true | debconf-set-selections \
@@ -21,9 +21,18 @@ RUN add-apt-repository "deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg
 
 RUN  apt-get install -y oracle-java8-installer oracle-java8-set-default xserver-xephyr xvfb
 
+RUN curl -sL https://deb.nodesource.com/setup_0.12 | sudo bash - \
+    && apt-get update && apt-get install -y nodejs
+
+RUN wget -N http://chromedriver.storage.googleapis.com/2.29/chromedriver_linux64.zip \
+    && unzip chromedriver_linux64.zip \
+    && chmod +x chromedriver \
+    && sudo mv -f chromedriver /usr/local/share/chromedriver \
+    && sudo ln -s /usr/local/share/chromedriver /usr/local/bin/chromedriver \
+    && sudo ln -s /usr/local/share/chromedriver /usr/bin/chromedriver
+
 ENV PG_MAJOR 9.4
 ENV PG_VERSION 9.4.11-1.pgdg80+1
-
 
 RUN apt-get update \
     && apt-get install -y postgresql-common \
@@ -32,7 +41,6 @@ RUN apt-get update \
         postgresql-$PG_MAJOR \
         postgresql-contrib-$PG_MAJOR \
     && rm -rf /var/lib/apt/lists/*
-
 
 RUN groupadd wheel \
     && mkdir /home/jenkins \
