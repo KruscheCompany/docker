@@ -3,6 +3,7 @@ FROM ubuntu:14.04
 ENV DEBIAN_FRONTEND noninteractive
 ENV JAVA_HOME "/usr/lib/jvm/java-8-oracle"
 
+
 RUN apt-get update \
     && apt-get install -y python-software-properties software-properties-common wget sudo nano libgtk2.0-0 libnss3 libnss3-dev libxi6 libgconf-2-4 unzip curl\
     && add-apt-repository ppa:webupd8team/java \
@@ -45,6 +46,6 @@ RUN apt-get update \
 
 RUN groupadd wheel \
     && mkdir /home/jenkins \
-    && useradd -G wheel -u 996 -d /home/jenkins jenkins \
+    && useradd -G wheel -u 106 -d /home/jenkins jenkins \
     && echo "%wheel  ALL=(ALL)       NOPASSWD: ALL" >> /etc/sudoers \
     && chown jenkins:jenkins -R /home/jenkins
