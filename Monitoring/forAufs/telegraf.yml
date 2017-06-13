@@ -1,0 +1,14 @@
+version: '2'
+services:
+  telegraf:
+    image: kruschecompany/telegraf
+    restart: always
+    environment:
+      HOST_PROC: /rootfs/proc
+      HOST_SYS: /rootfs/sys
+      HOST_ETC: /rootfs/etc
+    hostname: telegraf
+    extra_hosts:
+      - "influxdb:172.31.25.158"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro

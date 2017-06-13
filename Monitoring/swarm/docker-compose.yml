@@ -28,7 +28,7 @@ services:
     volumes:
       - type: bind
         source: /var/run/docker.sock
-        target: /var/run/docker.sock:ro
+        target: /var/run/docker.sock
     depends_on:
       - influxdb
     deploy:
