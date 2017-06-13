@@ -1,14 +1,14 @@
 version: '3'
-
 services:
-  influx:
+  influxdb:
     image: influxdb
     volumes:
       - influx:/var/lib/influxdb
     deploy:
       replicas: 1
       placement:
-        constraints: [node.hostname == swarm3]
+        constraints:
+          - node.role == manager
 
   grafana:
     image: grafana/grafana
@@ -17,25 +17,28 @@ services:
     volumes:
       - grafana:/var/lib/grafana
     depends_on:
-      - influx
+      - influxdb
     deploy:
       replicas: 1
       placement:
-        constraints: [node.hostname == swarm3]
+        constraints:
+          - node.role == manager
 
-  cadvisor:
-    image: google/cadvisor
-    hostname: '{{.Node.Hostname}}'
-    command: -logtostderr -docker_only -storage_driver=influxdb -storage_driver_db=cadvisor -storage_driver_host=influx:8086
+  telegraf:
+    image: kruschecompany/telegraf
+    environment:
+      HOST_PROC: /rootfs/proc
+      HOST_SYS: /rootfs/sys
+      HOST_ETC: /rootfs/etc
+    hostname: "{{.Service.Name}}-{{.Task.Slot}}-{{.Node.ID}}"
     volumes:
-      - /:/rootfs:ro
-      - /var/run:/var/run:rw
-      - /sys:/sys:ro
-      - /var/lib/docker/:/var/lib/docker:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
     depends_on:
-      - influx
+      - influxdb
     deploy:
-      mode: global
+      placement:
+        constraints:
+          - node.role == worker
 
 volumes:
   influx:
