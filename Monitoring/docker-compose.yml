@@ -24,13 +24,11 @@ services:
 
   telegraf:
     image: kruschecompany/telegraf
-    environment:
-      HOST_PROC: /rootfs/proc
-      HOST_SYS: /rootfs/sys
-      HOST_ETC: /rootfs/etc
     hostname: "{{.Service.Name}}-{{.Task.Slot}}-{{.Node.ID}}"
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - type: bind
+        source: /var/run/docker.sock
+        target: /var/run/docker.sock:ro
     depends_on:
       - influxdb
     deploy:
