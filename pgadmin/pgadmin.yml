@@ -1,0 +1,7 @@
+version: '2'
+services:
+  pgadmin4:
+    image: thajeztah/pgadmin4
+    ports:
+      - 9011:5050
+
